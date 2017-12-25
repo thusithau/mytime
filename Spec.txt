@@ -1,0 +1,63 @@
+Stories 
+1. Support new user registration 
+2. Sending out user activation message
+3. User request when account is not activate still
+4. Support user request with single option 
+
+
+
+1. Support new user creation 
+	
+	a. sql file should attaché for new table 'mt_users' creation as reusable manner
+	
+	(birth_date,  YYYY:MM:DD 
+	birth_time,   HH:MM AM/PM
+	location,     number
+	tel,          number
+	is_activated, number  (1- incomplete account creation, 2-succeses creation but not activated yet, 3 -filled all data by manual analysis ,4 - activated accounts
+	lagna,        string
+	star,         string
+	birth_rashi)  string
+	
+	
+	 	 	 
+	b. when 'mo-init' message received from new users or from incomplete accounts , then request to fill 'birth_date' as format YYYY:MM:DD AND
+		Update database with their tel number and is_activated as 1
+	
+	c. when reply with date request them to send the 'birth_time' as format HH:MM AM/PM
+	
+	d. send them he list of nine provinces to select as place of birth 
+	
+	e. send them the list of districts under their selected provinces 
+	
+	f. message them as 'Your account be activated within next 24 hrs' and update table is_activated as 2
+	
+	
+2.  Sending out user activation message
+
+		After fill the all astrological information system should acknowledge the clients. so triggering point will take as 
+		mo_init message from specific number
+		
+		a. write function to acknowledge all accounts in is_activated as 3 with message "you account has activated, enjoy the service"
+		b. update the is_activated to 4 each of them who are in 3 state.
+		
+
+3.  user request when account is not activate still (is_activated is 2)
+	reply them as "please wait, your account is yet not activated" 
+
+4. 	Support user request with single option  'Meet your boss'
+
+create new table 'mt_meet_your_boss' to store all muhurath time under the option 'Meet your boss' 
+
+Date,       YYYY:MM:DD
+Start_Time, HH:MM AM/PM
+Nekatha,    string
+Lagnaya,    string
+Comment     string
+
+
+	
+	
+	
+	
+	

@@ -52,21 +52,37 @@ if ($ussdOperation  == "mo-init") {
    
 	try {
 
+		$str=file_get_contents('local/si.json');
+		$json=json_decode($str,true); 		 
+
 		if($databaseHandler->isUserRegistered($address)){
-			
+		//if(($databaseHandler->isUserRegistered($address) != TRUE)or ($databaseHandler->DBStatus($address) == 1)){
+			$dbstatus = $databaseHandler->DBStatus($address);
+
+			if ($dbstatus == 1){
+				$sender->ussd($sessionId,$json['datetime_menu']['bdate'],$address );
+			}
+			else if ($dbstatus == 2){
+				$sender->ussd($sessionId,$json['datetime_menu']['notactive'],$address );
+			}
+			//$dbstatus = $databaseHandler->DBStatus($address);
+			//echo $dbstatus;
+			//$sender->ussd($sessionId,$dbstatus,$address );
 		}
 		else{
-		$databaseHandler->insertUser($address);
+			$databaseHandler->insertUser($address);
+			$sender->ussd($sessionId,$json['datetime_menu']['bdate'],$address );
 		}
 		
 		$sessionArrary=array( "sessionid"=>$sessionId,"tel"=>$address,"menu"=>"main","pg"=>"","others"=>"");
 
 		  // $operations->setSessions($sessionArrary);
 		
-		$str=file_get_contents('local/si.json');
-		$json=json_decode($str,true);  
+		//$str=file_get_contents('local/si.json');
+		//$json=json_decode($str,true);  
 
-		$sender->ussd($sessionId,$json['main_menu']['menu_1'],$address );
+		//$sender->ussd($sessionId,$json['main_menu']['menu_1'],$address );
+		$sender->ussd($sessionId,$json['province_menu']['province'],$address );
 
 	} catch (Exception $e) {
 			$sender->ussd($sessionId, 'Sorry error occured try again',$address );
